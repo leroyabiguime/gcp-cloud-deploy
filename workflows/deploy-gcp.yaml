@@ -1,0 +1,37 @@
+name: Deploy on gcp
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Upload-docker-image:
+    runs-on: ubuntu-latest
+    environment: common
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      # Checkout the repository files
+      - id: "checkout"
+        name: "Github repository checkout"
+        uses: actions/checkout@v4
+      # Auth
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: ${{vars.WORKLOAD_IDENTITY_PROVIDER}}
+          service_account: ${{vars.WORKLOAD_IDENTITY_SERVICE_ACCOUNT}}
+      - name: Configure Docker Client
+        shell: bash
+        run: |-
+          gcloud auth configure-docker {{ vars.CONTAINER_REGISTRY }}
+
+  
+        # Build the docker image
+    #   - name: Build Docker Image
+    #     shell: bash
+    #     run: |-
+    #       docker build . -t go-app:latest
+
