@@ -44,9 +44,9 @@ jobs:
         run: |-
           gcloud deploy apply --file=clouddeploy.yaml --region=europe-west1 --project=${{ vars.PROJECT_ID }}
 
-    #     #  Create release
-      - name: create the  release
-        run: |-
-          gcloud deploy releases create release-cloudrun-$(date +'%Y-%m-%d') --project=leroy-sandbox --delivery-pipeline my-run-demo-app-1 --region=europe-west1 --images=go-app=europe-west1-docker.pkg.dev/leroy-sandbox/gcp-cloud-deploy/go-app:latest --skaffold-file=skaffold.yaml
+      #   #  Create release
+      # - name: create the  release
+      #   run: |-
+      #     gcloud deploy releases create release-cloudrun-$(date +'%Y-%m-%d') --project=leroy-sandbox --delivery-pipeline my-run-demo-app-1 --region=europe-west1 --images=go-app=europe-west1-docker.pkg.dev/leroy-sandbox/gcp-cloud-deploy/go-app:latest --skaffold-file=skaffold.yaml
 
 
