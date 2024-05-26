@@ -27,11 +27,26 @@ jobs:
         shell: bash
         run: |-
           gcloud auth configure-docker {{ vars.CONTAINER_REGISTRY }}
-
-  
-        #Build the docker image
+        # Build the docker image
       - name: Build Docker Image
         shell: bash
         run: |-
           docker build . -t go-app:latest
+       # Push the image to the artifact registry
+      - name: Push Docker Image to Artifact Registry
+        shell: bash
+        run: |-
+          docker tag go-app:latest ${{ vars.CONTAINER_REGISTRY }}/${{ vars.PROJECT_ID }}/${{ vars.REGISTRY_REPOSITORY }}/go-app:latest
+          docker tag go-app:latest ${{ vars.CONTAINER_REGISTRY }}/${{ vars.PROJECT_ID }}/${{ vars.REGISTRY_REPOSITORY }}/go-app:$GITHUB_REF_NAME
+          docker push -a   ${{ vars.CONTAINER_REGISTRY }}/${{ vars.PROJECT_ID }}/${{ vars.REGISTRY_REPOSITORY }}/go-app
+        # Create the delivery pipelie
+      - name: create the delivery pipeline
+        run: |-
+          gcloud deploy apply --file=clouddeploy.yaml --region=europe-west1 --project=${{ vars.PROJECT_ID }}
+
+    #     #  Create release
+      - name: create the  release
+        run: |-
+          gcloud deploy releases create release-cloudrun-$(date +'%Y-%m-%d') --project=leroy-sandbox --delivery-pipeline my-run-demo-app-1 --region=europe-west1 --images=go-app=europe-west1-docker.pkg.dev/leroy-sandbox/gcp-cloud-deploy/go-app:latest --skaffold-file=skaffold.yaml
+
 
