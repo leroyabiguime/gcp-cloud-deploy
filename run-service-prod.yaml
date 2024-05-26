@@ -1,0 +1,9 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: deploy-run-service-prod
+spec:
+  template:
+    spec:
+      containers:
+      - image: europe-west1-docker.pkg.dev/leroy-sandbox/gcp-cloud-deploy/go-app:latest
