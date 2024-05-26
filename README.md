@@ -1,3 +1,3 @@
 # gcp-cloud-deploy
 
-![Image Alt Text](img/to/cloud-deploy-cicd.jpg)
+![Image Alt Text](img/cloud-deploy-cicd.jpg)
