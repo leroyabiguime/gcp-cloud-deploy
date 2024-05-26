@@ -29,9 +29,9 @@ jobs:
           gcloud auth configure-docker {{ vars.CONTAINER_REGISTRY }}
 
   
-        # Build the docker image
-    #   - name: Build Docker Image
-    #     shell: bash
-    #     run: |-
-    #       docker build . -t go-app:latest
+        #Build the docker image
+      - name: Build Docker Image
+        shell: bash
+        run: |-
+          docker build . -t go-app:latest
 
