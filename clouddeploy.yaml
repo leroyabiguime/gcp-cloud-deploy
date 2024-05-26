@@ -37,6 +37,7 @@ kind: Target
 metadata:
   name: run-qsprod
 description: Cloud Run production service
+requireApproval: true
 run:
   location: projects/leroy-sandbox/locations/europe-west1
 
